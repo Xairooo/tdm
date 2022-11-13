@@ -1,5 +1,7 @@
 # -*- mode: python -*-
 
+from setup import get_version
+
 block_cipher = None
 
 a = Analysis(['tdmgr.py'],
@@ -19,12 +21,12 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='tdmgr_0.2.13',
+          name=f'tdmgr_{get_version()}',
           debug=False,
           strip=False,
           upx=True,
           console=False , icon='tdmgr.icns')
 app = BUNDLE(exe,
-             name='tdmgr_0.2.13.app',
+             name=f'tdmgr_{get_version()}',
              icon='tdmgr.icns',
              bundle_identifier='com.tasmota.tdmgr')

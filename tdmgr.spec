@@ -1,5 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from setup import get_version
+
 block_cipher = None
 
 
@@ -22,7 +24,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='tdmgr_0.2.13',
+          name=f'tdmgr_{get_version()}',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
