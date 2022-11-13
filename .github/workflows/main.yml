@@ -45,7 +45,7 @@ jobs:
           pip install -r requirements.txt -r requirements_build.txt
       - name: Run PyInstaller
         run: |
-          python -m PyInstaller tdmgr32.spec
+          python -m PyInstaller tdmgr.spec
       - uses: actions/upload-artifact@v3
         with:
           name: app
