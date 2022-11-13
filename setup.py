@@ -1,7 +1,8 @@
 import os
-import re
 
 from setuptools import setup
+
+from get_version import get_version
 
 with open("README.md", "r") as rme:
     readme = rme.read()
@@ -17,12 +18,6 @@ if os.name == "nt":
 else:
     scripts = ['tdmgr.py']
     entry_points = None
-
-
-def get_version():
-    with open("tdmgr.py", "r") as tdmgr:
-        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", tdmgr.read(), re.M)
-        return version_match.group(1)
 
 
 setup(
