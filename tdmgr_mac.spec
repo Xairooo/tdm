@@ -27,6 +27,6 @@ exe = EXE(pyz,
           upx=True,
           console=False , icon='tdmgr.icns')
 app = BUNDLE(exe,
-             name=f'tdmgr_{get_version()}',
+             name=f'tdmgr_{get_version()}.app',
              icon='tdmgr.icns',
              bundle_identifier='com.tasmota.tdmgr')
