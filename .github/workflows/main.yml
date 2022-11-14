@@ -100,11 +100,13 @@ jobs:
                     python -m PyInstaller tdmgr_mac.spec
             -   name: See dist directory
                 run: ls dist
+            -   name: setenv release tag
+                run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
             -   name: Rename app
                 run: |
-                    mv dist/tdmgr*.app dist/tdmgr-macOS.app
+                    mv dist/tdmgr*.app dist/tdmgr_${{ env.RELEASE_VERSION }}_macOS.app
             -   name: 'Tar files'
-                run: tar -cvf dist/MacOS.tar dist/*
+                run: tar -cvf dist/tdmgr_${{ env.RELEASE_VERSION }}_macOS.tar dist/*
             -   name: 'Upload Artifact'
                 uses: actions/upload-artifact@v3
                 with:
@@ -117,7 +119,7 @@ jobs:
         continue-on-error: true
         steps:
             -   name: Exit if not on master branch
-                if: endsWith(github.ref, 'master') == false
+                if: endsWith(github.ref, 'develop') == false
                 run: exit -1
             -   name: Download artifacts
                 uses: actions/download-artifact@v3
