@@ -7,11 +7,19 @@ on:
             - develop
         tags:
             - 'v*'
+        paths-ignore:
+            - '.github/**'        # Ignore changes towards the .github directory
+            - '**.md'             # Do no build if *.md files changes
 
 jobs:
     build-windows:
         runs-on: windows-2019
         continue-on-error: true
+        strategy:
+            matrix:
+                architecture:
+                    - x86
+                    - x64
         steps:
             -   name: Checkout
                 uses: actions/checkout@v3
@@ -19,39 +27,18 @@ jobs:
                 uses: actions/setup-python@v4
                 with:
                     python-version: '3.9'
-                    architecture: 'x64'
+                    architecture: ${{ matrix.architecture }}
             -   name: Install requirements
                 run: |
                     pip install -r requirements.txt -r requirements_build.txt
             -   name: Run PyInstaller
                 run: |
-                    python -m PyInstaller tdmgr.spec
+                    python -m PyInstaller tdmgr_.spec
             -   uses: actions/upload-artifact@v3
                 with:
                     name: app
                     path: dist/tdmgr_*.exe
 
-    build-windows-x86:
-        runs-on: windows-2019
-        continue-on-error: true
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v3
-            -   name: Install Python
-                uses: actions/setup-python@v4
-                with:
-                    python-version: '3.9'
-                    architecture: 'x86'
-            -   name: Install requirements
-                run: |
-                    pip install -r requirements.txt -r requirements_build.txt
-            -   name: Run PyInstaller
-                run: |
-                    python -m PyInstaller tdmgr.spec
-            -   uses: actions/upload-artifact@v3
-                with:
-                    name: app
-                    path: dist/tdmgr_*.exe
 
     build-ubuntu:
         runs-on: ubuntu-20.04
@@ -114,7 +101,7 @@ jobs:
                     path: dist/*.tar
 
     release:
-        needs: [ build-windows, build-windows-x86, build-ubuntu, build-macos ]
+        needs: [ build-windows, build-ubuntu, build-macos ]
         runs-on: ubuntu-latest
         continue-on-error: true
         steps:
