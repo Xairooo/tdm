@@ -370,7 +370,7 @@ class ModbusEnergyEditorDialog(QWidget):
                                 field["U"] = unit_item_text
 
                         precision_item = self.twUserFields.cellWidget(row, UserFieldColumnEnum.Precision)
-                        field["P"] = precision_item.value()
+                        field["D"] = precision_item.value()
                 user_fields.append(field)
 
         if not (fields or user_fields):
